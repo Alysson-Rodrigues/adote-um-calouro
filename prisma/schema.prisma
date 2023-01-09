@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Veteran {
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  bio                 String?
+  role                Roles                @relation(fields: [role_id], references: [id])
+  role_id             Int
+  whatsapp            String?
+  messageOnSwipeRight String?
+  messageOnSwipeLeft  String?
+  VeteransToFreshman  VeteransToFreshman[]
+}
+
+model Freshman {
+  id                 Int                  @id @default(autoincrement())
+  name               String?
+  VeteransToFreshman VeteransToFreshman[]
+}
+
+model VeteransToFreshman {
+  veteran_id  Int
+  veteran     Veteran  @relation(fields: [veteran_id], references: [id])
+  freshman_id Int
+  freshman    Freshman @relation(fields: [freshman_id], references: [id])
+
+  @@id([veteran_id, freshman_id])
+}
+
+model Roles {
+  id      Int       @id @default(autoincrement())
+  role    String
+  Veteran Veteran[] // One to many relationship
+}
