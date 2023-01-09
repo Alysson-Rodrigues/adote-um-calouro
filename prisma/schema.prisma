@@ -11,11 +11,12 @@ model Veteran {
   id                  Int                  @id @default(autoincrement())
   name                String
   bio                 String?
-  role                Roles                @relation(fields: [role_id], references: [id])
-  role_id             Int
+  role                Roles?                @relation(fields: [role_id], references: [id])
+  role_id             Int?
   whatsapp            String?
   messageOnSwipeRight String?
   messageOnSwipeLeft  String?
+  profilePicture      String?
   VeteransToFreshman  VeteransToFreshman[]
 }
 
